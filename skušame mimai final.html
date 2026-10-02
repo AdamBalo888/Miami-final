@@ -20,9 +20,16 @@
       color: #e0e0ff;
     }
 
-    .container {
-      max-width: 1000px;
+    .page-wrapper {
+      max-width: 1300px;
       margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 20px;
+    }
+
+    .container {
+      flex: 1;
     }
 
     header {
@@ -50,10 +57,15 @@
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
       cursor: pointer;
       transition: all 0.3s ease;
+      display: inline-block;
+      position: relative;
+      padding: 5px 15px;
+      border-radius: 8px;
     }
 
-    header h1:hover {
+    header h1:hover:not(.locked) {
       transform: scale(1.02);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     header p {
@@ -62,10 +74,34 @@
       opacity: 0.95;
       cursor: pointer;
       transition: all 0.3s ease;
+      display: inline-block;
+      position: relative;
+      padding: 5px 15px;
+      border-radius: 8px;
     }
 
-    header p:hover {
+    header p:hover:not(.locked) {
       transform: scale(1.02);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .edit-icon {
+      display: none;
+      font-size: 12px;
+      margin-left: 8px;
+    }
+
+    .editable:hover .edit-icon:not(.locked .edit-icon) {
+      display: inline;
+    }
+
+    .editable.locked {
+      cursor: not-allowed;
+      opacity: 0.9;
+    }
+
+    .editable.locked:hover {
+      background: none;
     }
 
     .card {
@@ -91,32 +127,12 @@
       padding: 5px 10px;
       border-radius: 5px;
       transition: all 0.2s ease;
-    }
-
-    .editable:hover {
-      background: rgba(0, 217, 255, 0.2);
-      border: 1px dashed rgba(0, 217, 255, 0.5);
-    }
-
-    .editable.locked {
-      cursor: not-allowed;
-      opacity: 0.8;
-    }
-
-    .editable.locked:hover {
-      background: none;
-      border: none;
-    }
-
-    .edit-icon {
-      display: none;
-      font-size: 12px;
-      color: #00d9ff;
-      margin-left: 8px;
-    }
-
-    .editable:hover .edit-icon {
       display: inline;
+    }
+
+    .editable:hover:not(.locked) {
+      background: rgba(0, 217, 255, 0.15);
+      border: 1px dashed rgba(0, 217, 255, 0.5);
     }
 
     .edit-modal {
@@ -237,6 +253,16 @@
       font-size: 24px;
       margin-bottom: 15px;
       font-weight: 700;
+      display: inline-block;
+      position: relative;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    h2:hover:not(.locked) {
+      background: rgba(0, 217, 255, 0.15);
     }
 
     p {
@@ -356,7 +382,7 @@
       background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(255, 0, 110, 0.08) 100%);
     }
 
-    #fileInput {
+    #fileInput, #fileInputLogged {
       display: none;
     }
 
@@ -599,6 +625,112 @@
       margin-top: 10px;
     }
 
+    /* SIDEBAR */
+    .sidebar {
+      position: sticky;
+      top: 30px;
+      height: fit-content;
+    }
+
+    .sidebar-card {
+      background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(255, 0, 110, 0.05) 100%);
+      padding: 25px;
+      margin-bottom: 20px;
+      border-radius: 15px;
+      border: 2px solid rgba(0, 217, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 217, 255, 0.15);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .sidebar-card h3 {
+      color: #00d9ff;
+      font-size: 16px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
+    }
+
+    .ad-box {
+      width: 100%;
+      height: 220px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px dashed rgba(255, 138, 0, 0.6);
+      background: linear-gradient(135deg, rgba(255, 138, 0, 0.12), rgba(255, 0, 110, 0.08));
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ff8a00;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .ad-box img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+    }
+
+    .ad-box img.active {
+      opacity: 1;
+    }
+
+    .ad-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 2;
+      background: rgba(10, 14, 39, 0.8);
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #00d9ff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .sponsor-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sponsor-item {
+      background: rgba(10, 14, 39, 0.6);
+      padding: 12px 14px;
+      border-radius: 10px;
+      border-left: 3px solid #ff006e;
+      color: #c0c0ff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 1024px) {
+      .page-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .sidebar-card {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+    }
+
     @media (max-width: 768px) {
       header {
         padding: 30px;
@@ -620,101 +752,140 @@
 </head>
 <body>
 
-  <div class="container">
-    <header>
-      <h1 class="editable" onclick="editElement(this, 'h1')">🚀 ODBOR: MECHANIK POČÍTAČOVÝCH SIETÍ 🌐<span class="edit-icon">✏️</span></h1>
-      <p class="editable" onclick="editElement(this, 'p')">⚡ Futuristic Study Portal | Miami Neon Edition ⚡<span class="edit-icon">✏️</span></p>
-    </header>
+  <div class="page-wrapper">
+    <div class="container">
+      <header>
+        <h1 class="editable" onclick="editElement(this, 'h1')">🚀 ODBOR: MECHANIK POČÍTAČOVÝCH SIETÍ 🌐<span class="edit-icon">✏️</span></h1>
+        <p class="editable" onclick="editElement(this, 'p')">⚡ Futuristic Study Portal | Miami Neon Edition ⚡<span class="edit-icon">✏️</span></p>
+      </header>
 
-    <div class="card">
-      <h2>📢 Verejné Oznamy</h2>
-      <p class="editable" onclick="editElement(this, 'p')">🎉 Vitajte na futuristickej študijnej stránke nášho odboru! Tu nájdete všetky potrebné učebné materiály, podklady a zadania na cvičenia. Kompletný obsah je prístupný v chránenej študijnej zóne nižšie. 🔐<span class="edit-icon">✏️</span></p>
-    </div>
-
-    <div class="card" id="login-box">
-      <h2>🔒 VSTUP DO ŠTUDIJNEJ ZÓNY</h2>
-      <p>🛡️ Pre zobrazenie všetkých zadaní a materiálov zadajte prístupové heslo vašej študijnej skupiny:</p>
-      <div class="input-group">
-        <input type="password" id="hesloInput" placeholder="Zadajte heslo..." onkeydown="if(event.key==='Enter') skontrolujHeslo()">
-        <button onclick="skontrolujHeslo()">🚀 ODOMKNÚŤ</button>
-      </div>
-      <div id="chybaMsg" class="error">❌ NESPRÁVNE HESLO! Skúste znova. 🔄</div>
-
-      <div class="image-upload-section" id="uploadSection">
-        <h3 style="color: #00d9ff; margin-bottom: 15px;">📸 Pridaj Obrázky</h3>
-        <p style="color: #c0c0ff; margin-bottom: 15px;">Klikni na tlačidlo a vyber obrázky z tvojho počítača (PNG, JPG, GIF...)</p>
-        <input type="file" id="fileInput" multiple accept="image/*" onchange="uploadImages()">
-        <button class="upload-btn" onclick="document.getElementById('fileInput').click()">🖼️ VYBRAŤ OBRÁZKY</button>
-        <div class="gallery" id="gallery"></div>
+      <div class="card">
+        <h2 class="editable" onclick="editElement(this, 'h2')">📢 Verejné Oznamy<span class="edit-icon">✏️</span></h2>
+        <p class="editable" onclick="editElement(this, 'p')">🎉 Vitajte na futuristickej študijnej stránke nášho odboru! Tu nájdete všetky potrebné učebné materiály, podklady a zadania na cvičenia. Kompletný obsah je prístupný v chránenej študijnej zóne nižšie. 🔐<span class="edit-icon">✏️</span></p>
       </div>
 
-      <div class="link-box">
-        <h3>🌐 ZDIEĽAJ ODKAZ NA TÚTO STRÁNKU</h3>
-        <p style="color: #c0c0ff;">Skopíruj tento odkaz a pošli ho príateľom alebo kolegom:</p>
-        <code id="shareLink"></code>
-        <button class="copy-btn" onclick="copyLink()">📋 KOPÍROVAŤ ODKAZ</button>
-      </div>
-    </div>
+      <div class="card" id="login-box">
+        <h2>🔒 VSTUP DO ŠTUDIJNEJ ZÓNY</h2>
+        <p>🛡️ Pre zobrazenie všetkých zadaní a materiálov zadajte prístupové heslo vašej študijnej skupiny:</p>
+        <div class="input-group">
+          <input type="password" id="hesloInput" placeholder="Zadajte heslo..." onkeydown="if(event.key==='Enter') skontrolujHeslo()">
+          <button onclick="skontrolujHeslo()">🚀 ODOMKNÚŤ</button>
+        </div>
+        <div id="chybaMsg" class="error">❌ NESPRÁVNE HESLO! Skúste znova. 🔄</div>
 
-    <div class="card" id="chraneny-obsah" style="display: none;">
-      <div class="success-message" id="successMsg" style="display: block;">✨ ÚSPEŠNE ODOMKNUTÉ! 🎊 Tu sú vaše aktuálne zadania. 💪</div>
-      
-      <div class="info-box">
-        🔐 <strong>UPOZORNENIE:</strong> Keď si prihlásený, nemôžeš upravovať texty na tejto stránke. Odhlásiť sa môžeš tlačidlom nižšie. Nové obrázky si môžeš pridávať aj po prihlásení!
-      </div>
-
-      <h2>📚 ŠTUDIJNÉ MATERIÁLY A ZADANIA CVIČENÍ</h2>
-      <p>🌟 Nižšie sa nachádzajú všetky zadania na vypracovanie s termínmi a ich stav prípravy. Každá úloha má svoj vlastný percentuálny podiel na záverečnej známke! 📊</p>
-
-      <div class="tasks-grid">
-        <div class="task-card">
-          <div class="emoji">🌐</div>
-          <div class="task-number">Úloha #1</div>
-          <div class="task-title">Návrh a adresácia podsietí IPv4 / IPv6</div>
-          <div class="task-date">📅 Termín: 15.10.2026</div>
-          <span class="status active">⚡ V PRÍPRAVE</span>
+        <div class="image-upload-section" id="uploadSection">
+          <h3 style="color: #00d9ff; margin-bottom: 15px;">📸 Pridaj Obrázky</h3>
+          <p style="color: #c0c0ff; margin-bottom: 15px;">Klikni na tlačidlo a vyber obrázky z tvojho počítača (PNG, JPG, GIF...)</p>
+          <input type="file" id="fileInput" multiple accept="image/*" onchange="uploadImages()">
+          <button class="upload-btn" onclick="document.getElementById('fileInput').click()">🖼️ VYBRAŤ OBRÁZKY</button>
+          <div class="gallery" id="gallery"></div>
         </div>
 
-        <div class="task-card">
-          <div class="emoji">🔌</div>
-          <div class="task-number">Úloha #2</div>
-          <div class="task-title">Konfigurácia prepínačov a VLAN v Cisco Packet Tracer</div>
-          <div class="task-date">📅 Termín: 22.10.2026</div>
-          <span class="status pending">⏳ ČAKAJÚCE</span>
-        </div>
-
-        <div class="task-card">
-          <div class="emoji">💻</div>
-          <div class="task-number">Úloha #3</div>
-          <div class="task-title">Príprava a verzovanie webovej prezentácie na GitHube</div>
-          <div class="task-date">📅 Termín: 29.10.2026</div>
-          <span class="status pending">⏳ ČAKAJÚCE</span>
+        <div class="link-box">
+          <h3>🌐 ZDIEĽAJ ODKAZ NA TÚTO STRÁNKU</h3>
+          <p style="color: #c0c0ff;">Skopíruj tento odkaz a pošli ho príateľom alebo kolegom:</p>
+          <code id="shareLink"></code>
+          <button class="copy-btn" onclick="copyLink()">📋 KOPÍROVAŤ ODKAZ</button>
         </div>
       </div>
 
-      <div class="chart-container">
-        <h3>📊 PERCENTUÁLNY PODIEL ÚLOH NA ZNÁMKE</h3>
-        <canvas id="grafikZnamka"></canvas>
-      </div>
+      <div class="card" id="chraneny-obsah" style="display: none;">
+        <div class="success-message" id="successMsg" style="display: block;">✨ ÚSPEŠNE ODOMKNUTÉ! 🎊 Tu sú vaše aktuálne zadania. 💪</div>
+        
+        <div class="info-box">
+          🔐 <strong>UPOZORNENIE:</strong> Keď si prihlásený, nemôžeš upravovať texty na tejto stránke. Odhlásiť sa môžeš tlačidlom nižšie. Nové obrázky si môžeš pridávať aj po prihlásení!
+        </div>
 
-      <div class="note">
-        <strong>📝 DÔLEŽITÉ POZNÁMKY:</strong> 
-        <br>✅ Všetky vypracované protokoly a zadania nahrávajte podľa pokynov uvedených na cvičení.
-        <br>💡 Každá úloha má špecifický podiel na záverečnej známke (viď graf vyššie).
-        <br>📧 V prípade otázok kontaktujte svojho vyučujúceho.
-        <br>🎯 Dodržujte termíny - oneskorenú úlohu nebude možné odovzdať!
-      </div>
+        <h2>📚 ŠTUDIJNÉ MATERIÁLY A ZADANIA CVIČENÍ</h2>
+        <p>🌟 Nižšie sa nachádzajú všetky zadania na vypracovanie s termínmi a ich stav prípravy. Každá úloha má svoj vlastný percentuálny podiel na záverečnej známke! 📊</p>
 
-      <div class="image-upload-section" id="uploadSectionLogged">
-        <h3 style="color: #00d9ff; margin-bottom: 15px;">📸 Pridaj Obrázky</h3>
-        <p style="color: #c0c0ff; margin-bottom: 15px;">Aj keď si prihlásený, môžeš stále pridávať nové obrázky!</p>
-        <input type="file" id="fileInputLogged" multiple accept="image/*" onchange="uploadImages('logged')">
-        <button class="upload-btn" onclick="document.getElementById('fileInputLogged').click()">🖼️ VYBRAŤ OBRÁZKY</button>
-        <div class="gallery" id="galleryLogged"></div>
-      </div>
+        <div class="tasks-grid">
+          <div class="task-card">
+            <div class="emoji">🌐</div>
+            <div class="task-number">Úloha #1</div>
+            <div class="task-title">Návrh a adresácia podsietí IPv4 / IPv6</div>
+            <div class="task-date">📅 Termín: 15.10.2026</div>
+            <span class="status active">⚡ V PRÍPRAVE</span>
+          </div>
 
-      <button class="logout-btn" onclick="odhlasiť()">🚪 ODHLÁSIŤ SA</button>
+          <div class="task-card">
+            <div class="emoji">🔌</div>
+            <div class="task-number">Úloha #2</div>
+            <div class="task-title">Konfigurácia prepínačov a VLAN v Cisco Packet Tracer</div>
+            <div class="task-date">📅 Termín: 22.10.2026</div>
+            <span class="status pending">⏳ ČAKAJÚCE</span>
+          </div>
+
+          <div class="task-card">
+            <div class="emoji">💻</div>
+            <div class="task-number">Úloha #3</div>
+            <div class="task-title">Príprava a verzovanie webovej prezentácie na GitHube</div>
+            <div class="task-date">📅 Termín: 29.10.2026</div>
+            <span class="status pending">⏳ ČAKAJÚCE</span>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <h3>📊 PERCENTUÁLNY PODIEL ÚLOH NA ZNÁMKE</h3>
+          <canvas id="grafikZnamka"></canvas>
+        </div>
+
+        <div class="note">
+          <strong>📝 DÔLEŽITÉ POZNÁMKY:</strong> 
+          <br>✅ Všetky vypracované protokoly a zadania nahrávajte podľa pokynov uvedených na cvičení.
+          <br>💡 Každá úloha má špecifický podiel na záverečnej známke (viď graf vyššie).
+          <br>📧 V prípade otázok kontaktujte svojho vyučujúceho.
+          <br>🎯 Dodržujte termíny - oneskorenú úlohu nebude možné odovzdať!
+        </div>
+
+        <div class="image-upload-section" id="uploadSectionLogged">
+          <h3 style="color: #00d9ff; margin-bottom: 15px;">📸 Pridaj Obrázky</h3>
+          <p style="color: #c0c0ff; margin-bottom: 15px;">Aj keď si prihlásený, môžeš stále pridávať nové obrázky!</p>
+          <input type="file" id="fileInputLogged" multiple accept="image/*" onchange="uploadImages('logged')">
+          <button class="upload-btn" onclick="document.getElementById('fileInputLogged').click()">🖼️ VYBRAŤ OBRÁZKY</button>
+          <div class="gallery" id="galleryLogged"></div>
+        </div>
+
+        <button class="logout-btn" onclick="odhlasiť()">🚪 ODHLÁSIŤ SA</button>
+      </div>
     </div>
+
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <h3>🎯 Reklamy & Sponzori</h3>
+        <div class="ad-box">
+          <span class="ad-badge">SPONZOR</span>
+          <img class="ad-image active" src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=400&q=80" alt="Ad 1">
+          <img class="ad-image" src="https://images.unsplash.com/photo-1551431009-381d36ac3a14?auto=format&fit=crop&w=400&q=80" alt="Ad 2">
+          <img class="ad-image" src="https://images.unsplash.com/photo-1516321318423-f06f70504abf?auto=format&fit=crop&w=400&q=80" alt="Ad 3">
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <h3>🤝 Partneri</h3>
+        <ul class="sponsor-list">
+          <li class="sponsor-item">🔷 Cisco Systems</li>
+          <li class="sponsor-item">🔷 Huawei Tech</li>
+          <li class="sponsor-item">🔷 Juniper Networks</li>
+          <li class="sponsor-item">🔷 Arista Networks</li>
+          <li class="sponsor-item">🔷 Fortinet Security</li>
+        </ul>
+      </div>
+
+      <div class="sidebar-card">
+        <h3>📊 Štatistika</h3>
+        <div style="text-align: center; color: #c0c0ff; line-height: 2;">
+          <div style="font-size: 24px; font-weight: 900; background: linear-gradient(135deg, #00d9ff, #ff006e); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">92%</div>
+          <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Spokojnosť</div>
+          <hr style="border: 1px solid rgba(0, 217, 255, 0.2); margin: 12px 0;">
+          <div style="font-size: 24px; font-weight: 900; background: linear-gradient(135deg, #00d9ff, #ff006e); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">18</div>
+          <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Projektov</div>
+          <hr style="border: 1px solid rgba(0, 217, 255, 0.2); margin: 12px 0;">
+          <div style="font-size: 24px; font-weight: 900; background: linear-gradient(135deg, #00d9ff, #ff006e); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">7</div>
+          <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Lektorov</div>
+        </div>
+      </div>
+    </aside>
   </div>
 
   <!-- Edit Modal -->
@@ -742,7 +913,7 @@
       const textarea = document.getElementById('editTextarea');
       const title = document.getElementById('modalTitle');
 
-      title.textContent = type === 'h1' ? 'Upraviť Nadpis' : 'Upraviť Text';
+      title.textContent = type === 'h1' ? 'Upraviť Nadpis' : type === 'h2' ? 'Upraviť Nadpis Sekcie' : 'Upraviť Text';
       
       const text = element.textContent.replace('✏️', '').trim();
       textarea.value = text;
@@ -759,7 +930,9 @@
     function saveEdit() {
       if (!currentEditElement) return;
       
-      const newText = document.getElementById('editTextarea').value;
+      const newText = document.getElementById('editTextarea').value.trim();
+      if (!newText) return;
+      
       currentEditElement.innerHTML = newText + '<span class="edit-icon">✏️</span>';
       closeModal();
     }
@@ -816,7 +989,6 @@
         chybaMsg.style.display = "none";
         isLoggedIn = true;
         
-        // Lock editable elements
         document.querySelectorAll('.editable').forEach(el => {
           el.classList.add('locked');
         });
@@ -839,7 +1011,6 @@
       document.getElementById("hesloInput").focus();
       isLoggedIn = false;
       
-      // Unlock editable elements
       document.querySelectorAll('.editable').forEach(el => {
         el.classList.remove('locked');
       });
@@ -922,8 +1093,16 @@
       });
     }
 
+    // Ad rotation
+    const adImages = document.querySelectorAll('.ad-image');
+    let adIndex = 0;
+    setInterval(() => {
+      adImages.forEach(img => img.classList.remove('active'));
+      adIndex = (adIndex + 1) % adImages.length;
+      adImages[adIndex].classList.add('active');
+    }, 4000);
+
     document.addEventListener("DOMContentLoaded", function() {
-      // Nastaviť zdieľací odkaz
       const link = window.location.href;
       document.getElementById('shareLink').textContent = link;
       document.getElementById('hesloInput').focus();
